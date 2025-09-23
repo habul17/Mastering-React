@@ -67,3 +67,5 @@
 - ~ let it automatically update if it is patch
 
 - now install react , delete cdn and then install and import from node_module -> react and reactDOM
+
+---
