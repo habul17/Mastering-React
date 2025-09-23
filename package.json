@@ -1,0 +1,28 @@
+{
+  "name": "mastering-react",
+  "version": "1.0.0",
+  "description": "- Let us create version control for mastering React",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/habul17/Mastering-React.git"
+  },
+  "author": "Abul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/habul17/Mastering-React/issues"
+  },
+  "homepage": "https://github.com/habul17/Mastering-React#readme",
+  "devDependencies": {
+    "parcel": "^2.16.0"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "browserlist": [
+    "last 2 versions"
+  ]
+}
