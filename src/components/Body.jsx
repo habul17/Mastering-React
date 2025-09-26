@@ -1,43 +1,78 @@
+import { useState, useEffect } from "react";
 import RestaurantCard from "./RestaurantCard";
+import Shimmer from "./Shimmer";
+import useRestaurants from "../hooks/useRestaurants";
 
 const Body = () => {
-  // In Body component, before the return statement
+  const [searchText, setSearchText] = useState("");
+  const [isTopRatedFilter, setIsTopRatedFilter] = useState(false);
 
-  const restaurantList = [
-    {
-      data: {
-        id: "334475",
-        name: "KFC",
-        cloudinaryImageId: "f01666ac73626461d7455d9c24005cd4",
-        cuisines: ["Burgers", "Biryani", "American"],
-        avgRating: 4.1,
-        costForTwo: 40000, // This is in paisa
-        deliveryTime: 36,
-      },
-    },
-    {
-      data: {
-        id: "229",
-        name: "Meghana Foods",
-        cloudinaryImageId: "e33e1d3ba7d6b2bb0d45e1001b731fcf",
-        cuisines: ["Biryani", "Andhra", "South Indian"],
-        avgRating: 4.4,
-        costForTwo: 50000,
-        deliveryTime: 38,
-      },
-    },
-    // ... more restaurant objects
-  ];
+  const {
+    allRestaurants,
+    filteredRestaurants,
+    setFilteredRestaurants,
+    loading,
+    error,
+  } = useRestaurants();
+
+  useEffect(() => {
+    let filteredList = allRestaurants;
+
+    if (isTopRatedFilter) {
+      filteredList = filteredList.filter(
+        (res) => parseFloat(res.avgRating) > 4.2
+      );
+    }
+
+    if (searchText) {
+      filteredList = filteredList.filter((res) =>
+        res.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
+
+    setFilteredRestaurants(filteredList);
+  }, [searchText, isTopRatedFilter, allRestaurants]);
+
+  const handleTopRatedToggle = () => {
+    setIsTopRatedFilter(!isTopRatedFilter);
+  };
+
+  if (loading) {
+    return <Shimmer />;
+  }
+
+  if (error) {
+    return <div style={{ padding: 20, color: "darkred" }}>{error}</div>;
+  }
 
   return (
     <div className="body">
-      <div className="search">Search</div>
+      <div className="search-filter-container">
+        <input
+          type="text"
+          placeholder="Search for restaurants..."
+          className="search-box"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <button
+          className={`filter-btn ${isTopRatedFilter ? "active" : ""}`}
+          onClick={handleTopRatedToggle}
+        >
+          Top Rated Restaurants
+        </button>
+      </div>
+
       <div className="res-container">
-        {restaurantList.map((restaurant) => {
-          return (
-            <RestaurantCard key={restaurant.data.id} resData={restaurant} />
-          );
-        })}
+        {filteredRestaurants.length > 0 ? (
+          filteredRestaurants.map((restaurant) => (
+            <RestaurantCard key={restaurant.id} resData={restaurant} />
+          ))
+        ) : (
+          <div style={{ padding: 20, textAlign: "center" }}>
+            <h3>No restaurants match your filters.</h3>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,26 +1,40 @@
+/* General Body Styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  background-color: #f9f9f9;
+}
+
 /* ---- Header ---- */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
-  border-bottom: 1px solid #ddd;
-  background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 10px 40px;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
 .app-logo img {
-  width: 100px;
+  width: 90px;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.app-logo img:hover {
+  transform: scale(1.05);
 }
 
 .nav-items ul {
   display: flex;
+  align-items: center;
   list-style: none;
-  gap: 25px;
+  gap: 30px;
   margin: 0;
   padding: 0;
 }
@@ -30,18 +44,76 @@
   font-weight: 500;
   cursor: pointer;
   transition: color 0.3s;
+  padding-bottom: 4px;
 }
 
 .nav-items li:hover {
-  color: #ff6347; /* tomato color */
+  color: #ff6347;
 }
 
-/* ---- Search ---- */
-.search {
-  padding: 20px 40px;
-  background-color: #fafafa;
-  font-size: 18px;
+.login-btn {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background: white;
   font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-btn:hover {
+  background: #f0f0f0;
+  border-color: #aaa;
+}
+
+/* ---- Search + Filter ---- */
+.search-filter-container {
+  padding: 20px 40px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.search-box {
+  flex-grow: 1;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.search-box:focus {
+  border: 1px solid #ff6347;
+  box-shadow: 0 0 5px rgba(255, 99, 71, 0.25);
+  z-index: 1;
+}
+
+.filter-btn {
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s, color 0.2s,
+    border-color 0.2s;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.filter-btn.active {
+  background-color: #ff6347;
+  color: white;
+  border-color: #ff6347;
 }
 
 /* ---- Restaurant Container ---- */
@@ -50,41 +122,90 @@
   flex-wrap: wrap;
   gap: 25px;
   padding: 20px 40px;
-  background-color: #f9f9f9;
+  justify-content: center;
 }
 
 /* ---- Restaurant Card ---- */
 .res-card {
-  width: 220px;
+  width: 240px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 14px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .res-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .res-card img {
   width: 100%;
-  height: 140px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  margin-bottom: 12px;
 }
 
 .res-card h3 {
   margin: 5px 0;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.res-card h4 {
-  margin: 3px 0;
-  font-size: 14px;
-  color: #555;
+.res-card-cuisines {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.res-card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 13px;
+  color: #444;
+}
+
+.res-card-details span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-star {
+  color: #f5a623;
+}
+
+/* ---- Shimmer UI ---- */
+.shimmer-card {
+  width: 240px;
+  height: 280px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  animation: shimmer 1.5s infinite linear;
+  background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
+  background-size: 800px 104px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
 }
